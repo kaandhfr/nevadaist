@@ -1,115 +1,36 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import MemberList from "@/components/MemberList";
+import EventList from "@/components/EventList";
+import Link from "next/link";
 
 export default function Home() {
   return (
     <div
-      className={`${geistSans.className} ${geistMono.className} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
+      className={`py-6`}
     >
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/pages/index.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <section className="py-12 mb-12" style={{ backgroundImage: "url('/sun-tornado.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div className="container mx-auto">
+            <div className="section-title flex flex-col items-center gap-4 mb-4">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M56.9911 7.819C56.8941 14.017 54.5281 19.903 50.3101 24.439C51.3771 26.029 52.0001 27.942 52.0001 30L53.3931 28.746C58.8721 23.815 62.0001 16.791 62.0001 9.421V7L60.5931 7.281C59.4011 7.52 58.1991 7.699 56.9911 7.819Z" fill="#F46E0F"/>
+                <path d="M17 37L17.568 31.323C17.575 31.258 17.589 31.194 17.597 31.129C11.308 27.133 7.38 20.378 7.031 12.923C5.993 12.792 4.982 12.491 4.041 12.021L2 11V14.844C2 24.602 7.94 33.376 17 37Z" fill="#F46E0F"/>
+                <path d="M54.063 29.489C59.742 24.378 63 17.063 63 9.421V5.78L60.396 6.301C56.501 7.08 52.452 7.205 48.496 6.671L48.843 5.63C48.947 5.319 49 4.997 49 4.67C49 3.228 47.974 1.976 46.56 1.692L43.423 1.064C41.742 0.727 40.021 1.793 39.569 3.445L39.136 5.033C37.534 4.871 35.989 5.916 35.595 7.497L33.081 17.546C33.027 17.766 33 17.992 33 18.219C33 19.265 33.588 20.167 34.444 20.642C33.415 23.368 32.271 26.031 30.996 28.619C30.159 27.071 29.344 25.5 28.588 23.906L25.01 16.353C26.925 13.97 29.416 12.111 32.26 10.973L33.783 10.369L32.707 9.293C29.938 6.524 26.258 5 22.343 5H19.351L13.258 0.125L11.964 9.179L12.732 10.639C10.31 12.229 7.08 12.424 4.488 11.126L1 9.382V14.845C1 25.07 7.135 34.131 16.629 37.929L17.863 38.422L18.562 31.423C18.763 29.418 19.561 27.553 20.832 26.028L24.284 32.587C24.987 33.923 25.745 35.274 26.528 36.613C23.331 41.691 19.622 46.449 15.405 50.842L7.676 58.894C7.24 59.348 7 59.944 7 60.574C7 61.912 8.088 63 9.426 63H14.12C14.959 63 15.765 62.646 16.332 62.027L23.328 54.395C26.283 51.171 28.983 47.77 31.473 44.234C35.335 49.642 39.735 54.684 44.583 59.229L47.739 62.188C48.298 62.712 49.026 63 49.791 63H54.635C55.938 63 57 61.938 57 60.635C57 59.937 56.693 59.278 56.158 58.826L54.289 57.252C47.319 51.383 41.206 44.581 36.097 37.038C39.039 31.993 41.55 26.692 43.597 21.15C47.799 21.907 51 25.583 51 30V32.245L54.063 29.489ZM41.499 3.972C41.678 3.317 42.35 2.883 43.028 3.026L46.167 3.654C46.649 3.75 47 4.178 47 4.67C47 4.781 46.982 4.892 46.947 4.997L46.497 6.347L41.118 5.368L41.499 3.972ZM30.355 35.581L29.209 36.039C29.477 35.593 29.74 35.143 30 34.692L30.355 35.581ZM22.343 7C25.221 7 27.951 7.954 30.175 9.712C27.853 10.848 25.782 12.432 24.069 14.366L20.58 7H22.343ZM14.742 3.875L17.155 5.805L14.26 7.252L14.742 3.875ZM16.572 31.224L16.141 35.538C8.115 31.78 3 23.798 3 14.845V12.618L3.594 12.915C5.013 13.625 6.602 14 8.19 14C10.138 14 12.019 13.44 13.661 12.404L19.834 24.133C17.99 26.062 16.841 28.542 16.572 31.224ZM14.361 9.438L18.534 7.351L24.512 19.972L21.358 22.733L14.361 9.438ZM26.054 31.655L22.316 24.552L25.403 21.851L26.782 24.762C27.747 26.798 28.793 28.809 29.884 30.763C29.191 32.078 28.464 33.374 27.707 34.65C27.135 33.651 26.576 32.65 26.054 31.655ZM24.022 43.748L24.355 44.581L23.003 45.122C23.354 44.671 23.68 44.204 24.022 43.748ZM21.854 53.044L14.858 60.676C14.669 60.882 14.399 61 14.12 61H9.426C9.191 61 9 60.809 9 60.574C9 60.463 9.042 60.358 9.119 60.278L16.848 52.226C18.065 50.958 19.232 49.655 20.367 48.33L25.097 46.438L25.863 48.354C24.574 49.949 23.249 51.521 21.854 53.044ZM27.294 46.542L26.955 45.695L28.387 45.122C28.031 45.601 27.659 46.069 27.294 46.542ZM30.53 42.111L26.212 43.838L25.419 41.855C26.104 40.89 26.759 39.906 27.405 38.916L31.098 37.439L32.046 39.81C31.548 40.581 31.05 41.353 30.53 42.111ZM53.001 58.781L54.869 60.354C54.952 60.424 55 60.527 55 60.634C55 60.836 54.836 61 54.635 61H49.791C49.536 61 49.293 60.904 49.106 60.729L45.95 57.77C41.029 53.156 36.576 48.021 32.696 42.505C33.486 41.332 34.241 40.138 34.979 38.933C40.082 46.318 46.131 52.996 53.001 58.781ZM32.955 36.695L34.296 36.159C33.988 36.685 33.688 37.216 33.371 37.737L32.955 36.695ZM35.891 33.367L32.212 34.838L31.258 32.453C31.873 31.313 32.478 30.168 33.044 29H38.119C37.412 30.476 36.669 31.931 35.891 33.367ZM39.025 27H33.954C34.258 26.334 34.575 25.675 34.863 25H39.918C39.631 25.673 39.326 26.335 39.025 27ZM40.735 23H35.664C35.93 22.335 36.2 21.673 36.451 21H41.511C41.259 21.67 41 22.337 40.735 23ZM42 19H35.781C35.351 19 35 18.649 35 18.219C35 18.155 35.008 18.09 35.022 18.03L37.536 7.982C37.68 7.403 38.196 7 38.793 7C38.871 7 38.95 7.008 39.025 7.021L46.539 8.388C51.244 9.242 56.121 9.199 60.789 8.262L61 8.22V9.421C61 16.461 58.015 23.2 52.805 27.931C51.834 22.851 47.358 19 42 19Z" fill="black"/>
+                <path d="M42 9C40.346 9 39 10.346 39 12C39 13.654 40.346 15 42 15C43.654 15 45 13.654 45 12C45 10.346 43.654 9 42 9ZM42 13C41.448 13 41 12.552 41 12C41 11.448 41.448 11 42 11C42.552 11 43 11.448 43 12C43 12.552 42.552 13 42 13Z" fill="black"/>
+              </svg>
+              <h2 className="text-2xl font-semibold uppercase tracking-wider">YAKLAŞAN ETKİNLİKLER</h2>
+            </div>
+            <EventList />
+          </div>
+        </section>
+        
+        <section>
+          <div className="container mx-auto">
+            <div className="section-title flex items-center gap-4 mb-4">
+              <h2 className="text-2xl font-semibold mr-auto">Son Eklenen Üyeler</h2>
+              <Link href="/members" className="text-sm font-medium text-blue-500 px-4 py-2 rounded-md hover:bg-blue-100 transition">TÜMÜNÜ GÖR</Link>
+            </div>
+            <MemberList />
+          </div>
+        </section>
     </div>
   );
 }
