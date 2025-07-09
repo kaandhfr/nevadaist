@@ -1,6 +1,7 @@
 import MemberList from "@/components/MemberList";
 import EventList from "@/components/EventList";
 import Link from "next/link";
+import { events } from '../data/events';
 
 export default function Home() {
   return (
@@ -18,7 +19,7 @@ export default function Home() {
               </svg>
               <h2 className="text-2xl font-semibold uppercase tracking-wider">YAKLAŞAN ETKİNLİKLER</h2>
             </div>
-            <EventList />
+            <EventList events={events} />
           </div>
         </section>
         

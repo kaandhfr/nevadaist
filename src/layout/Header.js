@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import toast from 'react-hot-toast';
+import axiosInstance from '../utlis/axiosConfig';
 
 const ISTANBUL_DISTRICTS = [
   'Adalar', 'Arnavutköy', 'Ataşehir', 'Avcılar', 'Bağcılar', 'Bahçelievler', 'Bakırköy', 'Başakşehir', 'Bayrampaşa',
@@ -13,6 +15,63 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [registerName, setRegisterName] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPhone, setRegisterPhone] = useState("");
+  const [registerDistrict, setRegisterDistrict] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [registerPasswordRepeat, setRegisterPasswordRepeat] = useState("");
+  const [registerLicensePlate, setRegisterLicensePlate] = useState("");
+  const [loginUser, setLoginUser] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    if (registerPassword !== registerPasswordRepeat) {
+      toast.error("Şifreler uyuşmuyor!");
+      return;
+    }
+    if (!/^34 [A-Z]{1,3} [0-9]{2,4}$/.test(registerLicensePlate)) {
+      toast.error("Plaka formatı yanlış! Doğru format: 34 N 12, 34 NV 123, 34 NVD 1234 gibi");
+      return;
+    }
+    const [firstName, ...lastNameArr] = registerName.trim().split(" ");
+    const lastName = lastNameArr.join(" ");
+    const payload = {
+      groupId: "5d41a779-a4de-480d-9207-5ad85a61ff77",
+      email: registerEmail,
+      firstName: firstName || "",
+      lastName: lastName || "",
+      district: registerDistrict,
+      city: "istanbul",
+      licensePlate: registerLicensePlate,
+      phoneCode: "+90",
+      phoneNumber: registerPhone.replace(/\s+/g, ""),
+      password: registerPassword
+    };
+    try {
+      await axiosInstance.post("/api/auth/register", payload);
+      toast.success("Kayıt başarılı! Giriş yapabilirsiniz.");
+      setShowRegister(false);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Kayıt başarısız!");
+    }
+  };
+
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    const payload = {
+      email: loginUser,
+      password: loginPassword
+    };
+    try {
+      await axiosInstance.post("/api/auth/login", payload);
+      toast.success("Giriş başarılı!");
+      setPopupOpen(false);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Giriş başarısız! Bilgilerinizi kontrol edin.");
+    }
+  };
   
   return (
     <header className='sticky top-12 z-50 my-12'>
@@ -93,9 +152,9 @@ export default function Header() {
                         <div className={`shrink-0 w-full transition-all duration-500 flex flex-col justify-center ${showRegister ? 'opacity-0 translate-x-[50%] pointer-events-none' : 'opacity-100 translate-x-0'}`} style={{zIndex: showRegister ? 0 : 2}}>
                             <h2 className="text-xl font-bold mb-4 text-center">Giriş Yap</h2>
                             <div className="my-auto">
-                                <form className="flex flex-col gap-3">
-                                    <input type="text" placeholder="Telefon numarası veya kullanıcı adı" className="border border-gray-400 rounded-lg px-3 py-2" />
-                                    <input type="password" placeholder="Şifre" className="border border-gray-400 rounded-lg px-3 py-2 transition" />
+                                <form className="flex flex-col gap-3" onSubmit={handleLoginSubmit}>
+                                    <input type="text" placeholder="Telefon numarası veya kullanıcı adı" className="border border-gray-400 rounded-lg px-3 py-2" value={loginUser} onChange={e => setLoginUser(e.target.value)} required />
+                                    <input type="password" placeholder="Şifre" className="border border-gray-400 rounded-lg px-3 py-2 transition" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} required />
                                     <label className="flex items-center gap-2 text-sm">
                                         <input type="checkbox" className="accent-blue-500" />
                                         Şifremi hatırla
@@ -110,17 +169,28 @@ export default function Header() {
                         <div className={`shrink-0 w-full transition-all duration-500 flex flex-col justify-center ${showRegister ? 'opacity-100 -translate-x-[100%]' : 'opacity-0 -translate-x-[50%] pointer-events-none'}`} style={{zIndex: showRegister ? 2 : 0}}>
                             <h2 className="text-xl font-bold mb-4 text-center">Üye Ol</h2>
                             <div className="my-auto">
-                                <form className="flex flex-col gap-3">
-                                    <input type="text" placeholder="İsim Soyisim" className="border border-gray-400 rounded-lg px-3 py-2" />
-                                    <input type="text" placeholder="Telefon numarası" className="border border-gray-400 rounded-lg px-3 py-2" />
-                                    <select className="border border-gray-400 rounded-lg px-3 py-2" defaultValue="">
+                                <form className="flex flex-col gap-3" onSubmit={handleRegisterSubmit}>
+                                    <input type="text" placeholder="İsim Soyisim" className="border border-gray-400 rounded-lg px-3 py-2" value={registerName} onChange={e => setRegisterName(e.target.value)} required />
+                                    <input type="email" placeholder="Email" className="border border-gray-400 rounded-lg px-3 py-2" value={registerEmail} onChange={e => setRegisterEmail(e.target.value)} required />
+                                    <input type="text" placeholder="Telefon numarası" className="border border-gray-400 rounded-lg px-3 py-2" value={registerPhone} onChange={e => setRegisterPhone(e.target.value)} required />
+                                    <select className="border border-gray-400 rounded-lg px-3 py-2" value={registerDistrict} onChange={e => setRegisterDistrict(e.target.value)} required>
                                         <option value="" disabled>İlçe Seçiniz</option>
                                         {ISTANBUL_DISTRICTS.map((ilce) => (
                                             <option key={ilce} value={ilce}>{ilce}</option>
                                         ))}
                                     </select>
-                                    <input type="password" placeholder="Şifre Belirle" className="border border-gray-400 rounded-lg px-3 py-2" />
-                                    <input type="password" placeholder="Şifreyi Tekrar Girin" className="border border-gray-400 rounded-lg px-3 py-2" />
+                                    <input
+                                        type="text"
+                                        placeholder="Plaka (örn: 34 NVD 034, 34 NV 34, 34 N 0034)"
+                                        className="border border-gray-400 rounded-lg px-3 py-2 placeholder:text-sm"
+                                        value={registerLicensePlate}
+                                        onChange={e => setRegisterLicensePlate(e.target.value.toUpperCase())}
+                                        pattern="34 [A-Z]{1,3} [0-9]{2,4}"
+                                        title="Plaka formatı: 34 N 34, 34 NV 034, 34 NVD 0034 gibi"
+                                        required
+                                    />
+                                    <input type="password" placeholder="Şifre Belirle" className="border border-gray-400 rounded-lg px-3 py-2" value={registerPassword} onChange={e => setRegisterPassword(e.target.value)} required />
+                                    <input type="password" placeholder="Şifreyi Tekrar Girin" className="border border-gray-400 rounded-lg px-3 py-2" value={registerPasswordRepeat} onChange={e => setRegisterPasswordRepeat(e.target.value)} required />
                                     <button type="submit" className="bg-black text-white rounded-lg py-2 font-semibold mt-2 hover:bg-gray-800 transition-all cursor-pointer">Üye Ol</button>
                                 </form>
                                 <button type="button" className="w-full mt-4 text-blue-600 hover:underline text-sm font-medium cursor-pointer" onClick={() => setShowRegister(false)}>
