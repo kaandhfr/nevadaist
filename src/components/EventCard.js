@@ -3,7 +3,7 @@ import Link from 'next/link'
 export default function EventCard({ event }) {
   return (
     <Link
-      href={"/events/3fa85f64-5717-4562-b3fc-2c963f66afa6"}
+      href={"/"}
       className="event-item bg-white rounded-2xl p-4 flex gap-4 hover:shadow-lg transition-all duration-300"
     >
       <div className="event-item-date bg-gray-200 rounded-xl w-40 flex flex-col items-center justify-center">
